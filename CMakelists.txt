@@ -1,0 +1,36 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(NonoSTL CXX C)
+
+set(CXX_FLAGS
+ -g
+ -Wall
+ -Wextra
+ -Werror
+ -std=c++11
+)
+
+# ---[ Flags
+string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
+
+# ---[ Includes
+set(NANO_STL_THIRD_PARTY_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/third_party)
+include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${NANO_STL_THIRD_PARTY_INCLUDE_DIR})
+
+# ---[ Dependencies
+find_package(Threads REQUIRED)
+
+# --[ Output directory
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# ---[ Subdirectories
+add_subdirectory(test)
+
+message(STATUS "CMAKE_CXX_FLAGS=" "${CMAKE_CXX_FLAGS}")
+
+message(STATUS "PROJECT_BINARY_DIR=" "${PROJECT_BINARY_DIR}")
+
+message(STATUS "PROJECT_SOURCE_DIR=" "${PROJECT_SOURCE_DIR}")
