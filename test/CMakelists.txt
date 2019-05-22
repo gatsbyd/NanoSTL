@@ -3,7 +3,7 @@
 ###################################################################
 
 #--[Tests lists
-file(GLOB test_srcs_temp ${PROJECT_SOURCE_DIR}/test/*/*test.cpp)
+file(GLOB test_srcs_temp ${PROJECT_SOURCE_DIR}/test/*test.cpp)
 
 set(test_srcs "")
 
