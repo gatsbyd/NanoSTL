@@ -15,6 +15,12 @@ inline void destroy(T *p) {
 	p->~T();
 }
 
-//todo: destroy(ForwardIterator first, ForwardIterator last)
+//todo:low efficiency
+template <typename ForwardIterator>
+inline void destroy(ForwardIterator first, ForwardIterator last) {
+	for (; first != last; ++first) {
+		destroy(&*first);
+	}
+}
 
 }

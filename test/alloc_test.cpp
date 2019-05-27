@@ -20,8 +20,9 @@ public:
 	int a_;
 };
 
-TEST(AllocTest, SampleTest) {
-	Foo* pf = simple_alloc<Foo, alloc>::allocate();
+TEST(AllocTest, BaseTest) {
+	Foo* pf = nullptr;
+	pf = simple_alloc<Foo, alloc>::allocate();
 	EXPECT_NE(nullptr, pf);
 	
 	Foo foo1(3);
@@ -29,8 +30,17 @@ TEST(AllocTest, SampleTest) {
 	EXPECT_EQ(3, pf->a_);
 
 	destroy(pf);
+	simple_alloc<Foo, alloc>::deallocate(pf);
 
-	simple_alloc<Foo, alloc>::deallocate(pf);	
+
+	int* ip = simple_alloc<int, alloc>::allocate();
+
+	construct(ip, 666);
+	EXPECT_EQ(666, *ip);
+
+	destroy(ip);
+	simple_alloc<int, alloc>::deallocate(ip);
+
 }
 
 }
