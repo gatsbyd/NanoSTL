@@ -50,23 +50,32 @@ public:
 	//modifiers
 	void push_back(const value_type& val);
 	// void push_back(value_type&& val);
-	// void pop_back();
+	void pop_back() {
+    	--finish;
+    	destroy(finish);
+	}
 	iterator insert(const_iterator position, const value_type& val);
 	iterator insert(const_iterator position, size_type n, const value_type& val);
 	// iterator insert(const_iterator position, value_type&& val);
-	// iterator erase(const_iterator position);
-	// iterator erase(const_iterator first, const_iterator last);
+	iterator erase(const_iterator position);
+	iterator erase(const_iterator first, const_iterator last);
 	void swap(vector<value_type, Alloc>& x) {
 		using std::swap;
 		swap(start, x.start);
 		swap(finish, x.finish);
 		swap(end_of_storage, x.end_of_storage);
 	}
-	// void clear() noexcept;
+	void clear() noexcept {
+		erase(begin(), end());
+	}
 
 	// //element access
-	// reference operator[] (size_type n);
-	// const_reference operator[] (size_type n) const;
+	reference operator[] (size_type n) {
+		return start[n];
+	}
+	const_reference operator[] (size_type n) const {
+		return start[n];
+	}
 
 	// //capacity
 	size_type size() const noexcept {
@@ -170,6 +179,20 @@ typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(const_iterator posi
 		end_of_storage = new_end_of_storage;
 	}
 	return start + elems_before;
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(const_iterator position) {
+	return erase(position, position + 1);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(const_iterator first, const_iterator last) {
+	iterator erase_start = begin() + (first - cbegin());
+	iterator result = copy(last, cend(), erase_start);
+	destroy(result, end());
+	finish = result;
+	return erase_start;
 }
 
 }
