@@ -37,41 +37,30 @@ public:
 
 	//destructor
 	~vector() {
-		destory(start, finish);
+		destroy(start, finish);
 		deallocate();
 	}
 
 	//operator=
-	vector<value_type, Alloc>& operator=(const vector<value_type, Alloc> rhs) {		//pass by value, not reference
-		swap(*this, rhs);
+	vector<value_type, Alloc>& operator=(vector<value_type, Alloc> rhs) {		//pass by value, not reference
+		this->swap(rhs);
 		return *this;
-	}
-	vector<value_type, Alloc>& operator=(vector<value_type, Alloc>&& rhs) {
-		if (this != &rhs) {
-			destory(start, finish);
-			deallocate();
-			this.start = rhs.start;
-			this.finish = rhs.finish;
-			this.end_of_storage = rhs.end_of_storage;
-
-			rhs.start = rhs.finish = rhs.end_of_storage = nullptr;
-		}
 	}
 
 	//modifiers
-	// void push_back(const value_type& val);
+	void push_back(const value_type& val);
 	// void push_back(value_type&& val);
 	// void pop_back();
-	// iterator insert(const_iterator position, const value_type& val);
-	// iterator insert(const_iterator position, size_type n, const value_type& val);
+	iterator insert(const_iterator position, const value_type& val);
+	iterator insert(const_iterator position, size_type n, const value_type& val);
 	// iterator insert(const_iterator position, value_type&& val);
 	// iterator erase(const_iterator position);
 	// iterator erase(const_iterator first, const_iterator last);
 	void swap(vector<value_type, Alloc>& x) {
 		using std::swap;
-		swap(this.start, x.start);
-		swap(this.finish, x.finish);
-		swap(this.end_of_storage, x.end_of_storage);
+		swap(start, x.start);
+		swap(finish, x.finish);
+		swap(end_of_storage, x.end_of_storage);
 	}
 	// void clear() noexcept;
 
@@ -83,7 +72,9 @@ public:
 	size_type size() const noexcept {
 		return static_cast<size_type>(end() - begin());
 	}
-	// size_type capacity() const noexcept;
+	size_type capacity() const noexcept {
+		return static_cast<size_type>(end_of_storage, begin());
+	}
 
 	// //iterator
 	iterator begin() noexcept {
@@ -130,5 +121,55 @@ private:
 	iterator end_of_storage;
 };
 
+template <typename T, typename Alloc>
+void vector<T, Alloc>::push_back(const value_type& val) {
+	insert(cend(), val);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(const_iterator position, const value_type& val) {
+	return insert(position, 1, val);
+}
+
+template <typename T, typename Alloc>
+typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(const_iterator position, size_type n, const value_type& val) {
+
+	const size_type elems_before = static_cast<size_type>(position - start);
+	iterator pos = start + (position - start);
+
+	if (static_cast<size_type>(end_of_storage - finish) >= n) {
+		const size_type elems_after = finish - pos;
+		if (n <= elems_after) {
+			copy(position, position + (elems_after - n), pos + n);
+			uninitialized_copy(position + (elems_after - n), cend(), finish);
+			fill_n(pos, n, val);
+		} else {
+			uninitialized_copy(position, cend(), pos + n);
+			fill_n(pos, elems_after, val);
+			uninitialized_fill_n(finish, n - elems_after, val);
+		}
+
+		finish = finish + n;
+	} else {
+		const size_type old_capacity = size();
+		const size_type new_capacity = old_capacity + max(old_capacity, n);
+		iterator new_start = data_allocator::allocate(new_capacity);
+		iterator new_finish = new_start;
+		iterator new_end_of_storage = new_start + new_capacity;
+
+		//todo: move if noexcept
+		new_finish = uninitialized_copy(cbegin(), position, new_start);
+		new_finish = uninitialized_fill_n(new_finish, n, val);
+		new_finish = uninitialized_copy(position, cend(), new_finish);
+
+		destroy(start, finish);
+		deallocate();
+
+		start = new_start;
+		finish = new_finish;
+		end_of_storage = new_end_of_storage;
+	}
+	return start + elems_before;
+}
 
 }
