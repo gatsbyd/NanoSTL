@@ -1,5 +1,5 @@
-#include "src/stl_alloc.h"
-#include "src/stl_construct.h"
+#include "base/stl_alloc.h"
+#include "base/stl_construct.h"
 #include "gtest/gtest.h"
 
 #include <iostream>

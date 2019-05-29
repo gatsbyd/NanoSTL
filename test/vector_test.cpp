@@ -1,7 +1,7 @@
 #include <vector>
 
 #include "gtest/gtest.h"
-#include "src/vector"
+#include "vector/vector"
 
 namespace NanoSTL {
 

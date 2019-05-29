@@ -1,5 +1,5 @@
-#include "src/stl_alloc.h"
-#include "src/stl_uninitialized.h"
+#include "base/stl_alloc.h"
+#include "base/stl_uninitialized.h"
 #include "gtest/gtest.h"
 
 #include <vector>

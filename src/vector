@@ -1,8 +1,0 @@
-#pragma once
-
-#include "src/stl_algobase.h"
-#include "src/stl_alloc.h"
-#include "src/stl_construct.h"
-#include "src/stl_uninitialized.h"
-#include "src/stl_vector.h"
-

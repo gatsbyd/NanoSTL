@@ -16,7 +16,7 @@ string(REPLACE ";" " " CMAKE_CXX_FLAGS "${CXX_FLAGS}")
 # ---[ Includes
 set(NANO_STL_THIRD_PARTY_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/third_party)
 set(NANO_STL_GMOCK_INCLUDE_DIR ${NANO_STL_THIRD_PARTY_INCLUDE_DIR}/gmock)
-include_directories(${PROJECT_SOURCE_DIR})
+include_directories(${PROJECT_SOURCE_DIR}/src)
 include_directories(${NANO_STL_GMOCK_INCLUDE_DIR})
 
 # ---[ Dependencies
