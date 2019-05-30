@@ -17,7 +17,7 @@ public:
 		// cout << "Foo copy construct" << endl;
 	}
 	~Foo() {
-		//cout << "Foo:destruct a_=" << a_ << endl;
+		// cout << "Foo:destruct a_=" << a_ << endl;
 	}
 	int a_;
 
@@ -94,6 +94,13 @@ TEST(ListTest, ModifyTest) {
     lf.clear();
     EXPECT_EQ(size_t(0), lf.size());
 
+    // push_back() push_front() back() front()
+    lf.push_back(Foo(666));
+    lf.push_back(Foo(888));
+    EXPECT_EQ(size_t(2), lf.size());
+    EXPECT_EQ(666, lf.front().a_);
+    EXPECT_EQ(888, lf.back().a_);
+    lf.push_front(Foo(999));
+    EXPECT_EQ(999, lf.front().a_);
 }
-
 }

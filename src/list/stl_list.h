@@ -64,6 +64,8 @@ public:
     typedef list_iterator<T, T&, T*> iterator;
     typedef list_iterator<T, const T&, const T*> const_iterator;
     typedef size_t size_type;
+    typedef value_type& reference;
+    typedef const value_type& const_reference;
 
     // constructor
     list() :size_(0) {
@@ -98,10 +100,19 @@ public:
     }
 
     //modifiers
-    // void push_front(const value_type& val);
-    // void pop_front();
-    // void push_back(const value_type& val);
-    // void pop_back();
+    void push_front(const value_type& val) {
+        insert(cbegin(), val);
+    }
+    void pop_front() {
+        erase(cbegin());
+    }
+    void push_back(const value_type& val) {
+        insert(cend(), val);
+    }
+    void pop_back() {
+        iterator tmp = end();
+        erase(--tmp);
+    }
     iterator insert(iterator position, const value_type& val) {
         const_iterator const_pos = position.node;
         return insert(const_pos, val);
@@ -154,10 +165,22 @@ public:
     size_type size() const noexcept {return size_;}
 
     // element access
-    // reference front();
-    // const_reference front() const;
-    // reference back();
-    // const_reference back() const;
+    reference front() {
+        auto it = begin();
+        return *it;
+    }
+    const_reference front() const {
+        auto it = cbegin();
+        return *it;
+    }
+    reference back() {
+        auto it = end();
+        return *(--it);
+    }
+    const_reference back() const {
+        auto it = cend();
+        return *(--it);
+    }
 
     // // iterator
     iterator begin() noexcept {
@@ -182,7 +205,7 @@ public:
 private:
     typedef simple_alloc<list_node<T>, Alloc> data_allocator;
 
-    list_node<T>* create_node(T value) {
+    list_node<T>* create_node(const T& value) {
         list_node<T>* new_node = data_allocator::allocate();
         construct(&(new_node->data), value);
         return new_node;
