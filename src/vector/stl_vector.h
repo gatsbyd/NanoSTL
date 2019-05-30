@@ -60,10 +60,9 @@ public:
 	iterator erase(const_iterator position);
 	iterator erase(const_iterator first, const_iterator last);
 	void swap(vector<value_type, Alloc>& x) {
-		using std::swap;
-		swap(start, x.start);
-		swap(finish, x.finish);
-		swap(end_of_storage, x.end_of_storage);
+		NanoSTL::swap(start, x.start);
+		NanoSTL::swap(finish, x.finish);
+		NanoSTL::swap(end_of_storage, x.end_of_storage);
 	}
 	void clear() noexcept {
 		erase(begin(), end());

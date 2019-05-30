@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstddef>
+
 ////////////////////////////////////////////////////////////////////////////////
 
 namespace NanoSTL {
@@ -20,7 +22,7 @@ struct iterator_traits {
 	typedef typename Iterator::difference_type   difference_type;
 	typedef typename Iterator::pointer           pointer;
 	typedef typename Iterator::reference         reference;
-}
+};
 
 //partial specialization for pointer
 template <typename T>
@@ -30,7 +32,7 @@ struct iterator_traits<T*> {
  	typedef ptrdiff_t                  difference_type;
   	typedef T*                         pointer;
   	typedef T&                         reference;
-}
+};
 
 //partial specialization for const pointer
 template <typename T>
@@ -40,7 +42,7 @@ struct iterator_traits<const T*> {
  	typedef ptrdiff_t                  difference_type;
   	typedef const T*                         pointer;
   	typedef const T&                         reference;
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////
 

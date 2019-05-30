@@ -2,6 +2,8 @@
 
 #include <string.h>
 
+namespace NanoSTL {
+
 //todo: rough implementation
 template <typename InputIterator, typename OutputIterator>
 inline OutputIterator copy(InputIterator first, InputIterator last,
@@ -43,4 +45,13 @@ inline const T& min(const T& a, const T& b) {
 template <typename T>
 inline const T& max(const T& a, const T& b) {
   return  a < b ? b : a;
+}
+
+template <class T>
+inline void swap(T& a, T& b) {
+  T tmp = a;
+  a = b;
+  b = tmp;
+}
+
 }

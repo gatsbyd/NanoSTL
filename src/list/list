@@ -1,4 +1,7 @@
+#pragma once
+
 #include "base/stl_iterator.h"
 #include "base/stl_alloc.h"
-#include "base/construct.h"
-#include "list/strl_list.h"
+#include "base/stl_construct.h"
+#include "algorithm/stl_algobase.h"
+#include "list/stl_list.h"
