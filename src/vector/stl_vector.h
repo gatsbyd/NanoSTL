@@ -31,6 +31,12 @@ public:
 		:start(rhs.start), finish(rhs.finish), end_of_storage(rhs.end_of_storage) {
 		rhs.start = rhs.finish = rhs.end_of_storage = nullptr;
 	}
+	template <class InputIterator>
+	vector(InputIterator first, InputIterator last) :start(nullptr), finish(nullptr), end_of_storage(nullptr) {		// range
+		for (; first != last; ++first) {
+			push_back(*first);
+		}
+	}
 	// vector(initializer_list<value_type> il) {
 	// 	//todo
 	// }
@@ -75,6 +81,12 @@ public:
 	const_reference operator[] (size_type n) const {
 		return start[n];
 	}
+	reference front() {
+		return *begin();
+	}
+	const_reference front() const {
+		return *begin();
+	}
 
 	// //capacity
 	size_type size() const noexcept {
@@ -83,6 +95,8 @@ public:
 	size_type capacity() const noexcept {
 		return static_cast<size_type>(end_of_storage, begin());
 	}
+	bool empty() const noexcept {return start == finish;}
+	
 
 	// //iterator
 	iterator begin() noexcept {
@@ -179,6 +193,8 @@ typename vector<T, Alloc>::iterator vector<T, Alloc>::insert(const_iterator posi
 	}
 	return start + elems_before;
 }
+
+
 
 template <typename T, typename Alloc>
 typename vector<T, Alloc>::iterator vector<T, Alloc>::erase(const_iterator position) {
